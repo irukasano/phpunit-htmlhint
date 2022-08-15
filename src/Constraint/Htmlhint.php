@@ -23,6 +23,6 @@ class Htmlhint extends Constraint
 
     protected function additionalFailureDescription($other): string
     {
-        return implode("\n", $other->getErrors());
+        return implode("\n", $other->getStdouts());
     }
 }
