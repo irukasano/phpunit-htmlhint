@@ -4,7 +4,20 @@ add phpunit assertion by htmlhint
 
 ## install
 
-composer require irukasano/phpunit-htmlhint
+install this library,
+
+```bash
+$ composer require irukasano/phpunit-htmlhint
+```
+
+and also needs to install [htmlhint](https://htmlhint.com/docs/user-guide/getting-started)
+
+```bash
+$ sudo apt install nodejs npm
+$ sudo npm install n -g
+$ sudo n stable
+$ sudo npm install htmlhint -g
+```
 
 ## usage
 
