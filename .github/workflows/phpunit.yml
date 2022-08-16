@@ -27,12 +27,16 @@ jobs:
         node-version: '14'
         cache: npm
 
-    - name: install prettier
+    - name: install htmlhint
       run: |
         npm -g install htmlhint
 
     - name: Checkout
       uses: actions/checkout@v2
+
+    - name: copy environment for workflow
+      run: |
+        cp -p .env.workflow .env
 
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
@@ -42,13 +46,8 @@ jobs:
 
     - name: Run test suite
       run: composer run-script test-workflow
+      id: run-test
       continue-on-error: true
-
-    - name: Check if test was success
-      if: failure()
-      id: test-success
-      run: |
-        echo "::set-output name=RESULT::failed"
 
     - name: Upload Unit Test Results
       if: ${{ always() }}
@@ -69,9 +68,9 @@ jobs:
         files: artifacts/**/*.xml
 
     - name: Failed workflow if test was failed
+      if: ${{ steps.run-test.outcome == 'failure' }}
       run: |
         echo "Error: test was failed"
         exit 1
-      if: (steps.test-success.outputs.RESULT == 'failed')
 
 
