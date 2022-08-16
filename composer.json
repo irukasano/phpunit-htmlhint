@@ -26,6 +26,7 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "test-workflow": "vendor/bin/phpunit --log-junit results/phpunit.xml"
     }
 }

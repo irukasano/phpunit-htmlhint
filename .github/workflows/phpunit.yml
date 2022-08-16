@@ -1,0 +1,50 @@
+name: phpunit
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: ['7.4']
+
+    steps:
+
+    - name: Setup PHP ${{ matrix.php-version }}
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Run test suite
+      run: composer run-script test-workflow
+      continue-on-error: true
+
+    - name: Upload Unit Test Results
+      if: ${{ always() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: Unit Test Results
+        path: results/*.xml
+
+    - name: Download Artifacts
+      if: success() || failure()
+      uses: actions/download-artifact@v2
+      with:
+        path: artifacts
+
+    - name: Publish Unit Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v1
+      with:
+        files: artifacts/**/*.xml
