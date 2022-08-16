@@ -21,7 +21,6 @@ jobs:
     - name: touch package-lock.json
       run: |
         touch package-lock.json
-        touch package.json
 
     - uses: actions/setup-node@v3
       with:
@@ -30,7 +29,7 @@ jobs:
 
     - name: install htmlhint
       run: |
-        npm install htmlhint
+        npm -g install htmlhint
 
     - name: Checkout
       uses: actions/checkout@v2
