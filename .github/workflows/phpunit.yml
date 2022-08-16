@@ -18,6 +18,15 @@ jobs:
       with:
         php-version: ${{ matrix.php-version }}
 
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '14'
+        cache: npm
+
+    - name: install prettier
+      run: |
+        npm -g install htmlhint
+
     - name: Checkout
       uses: actions/checkout@v2
 
@@ -30,6 +39,12 @@ jobs:
     - name: Run test suite
       run: composer run-script test-workflow
       continue-on-error: true
+
+    - name: Check if test was success
+      if: failure()
+      id: test-success
+      run: |
+        echo "::set-output name=RESULT::failed"
 
     - name: Upload Unit Test Results
       if: ${{ always() }}
@@ -48,3 +63,11 @@ jobs:
       uses: EnricoMi/publish-unit-test-result-action@v1
       with:
         files: artifacts/**/*.xml
+
+    - name: Failed workflow if test was failed
+      run: |
+        echo "Error: test was failed"
+        exit 1
+      if: (steps.test-success.outputs.RESULT == 'failed')
+
+
