@@ -1,6 +1,14 @@
 # phpunit-htmlhint
 
-add phpunit assertion by htmlhint
+![phpunit](https://github.com/irukasano/phpunit-htmlhint/actions/workflows/phpunit.yml/badge.svg)
+
+add assertion of phpunit with htmlhint.
+
+```php
+$this->assertHtmlhintOk("<!DOCTYPE html><h1>Hello<div></h1>");
+```
+
+will failed because "div" tag must be paired.(message by htmlhint)
 
 ## install
 
