@@ -2,5 +2,8 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__.DIRECTORY_SEPARATOR."..");
-$dotenv->load();
+try {
+    $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__.DIRECTORY_SEPARATOR."..");
+    $dotenv->load();
+} catch (\Dotenv\Exception\InvalidPathException $e) {
+}
