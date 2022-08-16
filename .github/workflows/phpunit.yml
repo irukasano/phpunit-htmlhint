@@ -21,6 +21,7 @@ jobs:
     - name: touch package-lock.json
       run: |
         touch package-lock.json
+        touch package.json
 
     - uses: actions/setup-node@v3
       with:
