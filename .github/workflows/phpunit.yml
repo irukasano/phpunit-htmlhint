@@ -18,6 +18,10 @@ jobs:
       with:
         php-version: ${{ matrix.php-version }}
 
+    - name: touch package-lock.json
+      run: |
+        touch package-lock.json
+
     - uses: actions/setup-node@v3
       with:
         node-version: '14'
